@@ -15,7 +15,9 @@ commits_df = spark.read \
     .option("header", "true") \
     .load(commits_file)
 
+print("----------------------------------------")
 print("Les 10 projets Github pour lesquels il y a eu le plus de commit :")
+print("----------------------------------------")
 
 commits_df.select("repo") \
     .groupBy("repo") \
