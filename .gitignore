@@ -2,3 +2,5 @@ data
 
 # Virtual environment
 venv
+
+.idea
