@@ -22,3 +22,7 @@ python3 -m venv venv
 ```
 python3 -m pip install -r requirements.txt
 ```
+
+## Get the data to 
+Récupérez le dataset full.csv du projet GitHub Commit Messages sur [Kaggle](https://www.kaggle.com/dhruvildave/github-commit-messages-dataset).
+Collez ce fichier dans le répertoire data.
