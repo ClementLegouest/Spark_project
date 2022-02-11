@@ -1,5 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, to_date
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 spark = SparkSession \
     .builder \
@@ -22,14 +24,23 @@ print("----------------------------------------")
 print("Les 10 personnes qui ont le plus contribué au projet apache/spark ces 24 derniers mois:")
 print("----------------------------------------")
 
+# Managing the date to compare with
+date = datetime.now()
+earlier_date = date - relativedelta(months=24)
+
+print("aujourd'hui : ", date)
+print("Il y a 24 mois : ", earlier_date)
+
 # Format de date : Sat Jul 25 10:58:25 2020 -0700
 
 commits_df = commits_df.filter(commits_df.repo == "apache/spark") \
     .select(
-    col("author").substr(1, 3).alias("author"),
+    col("author").alias("author"),
     col("date"),
-    to_date(col("date"), "EEEE MMMM d hh:mm:ss YYYY X").alias("to_date"))
+    to_date(col("date"), "EEEE MMMM d hh:mm:ss YYYY X").alias("to_date"),
+    col("repo")) \
+    .filter(commits_df("date").gt(earlier_date))
 
-commits_df.show()
+commits_df.show(30, False)
 
 commits_df.printSchema()
