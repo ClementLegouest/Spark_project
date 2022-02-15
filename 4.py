@@ -2,6 +2,7 @@ from pyspark.sql.types import *
 from pyspark.sql import SparkSession
 from utils import display_message
 import operator
+from time import sleep
 
 the_words = {}
 
@@ -60,3 +61,5 @@ for key, value in the_words.items():
         print(key, ':', value)
         count += 1
         if count >= 10: break
+
+sleep(1000000000)

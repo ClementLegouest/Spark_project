@@ -2,6 +2,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, to_date
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from time import sleep
 
 spark = SparkSession \
     .builder \
@@ -20,9 +21,7 @@ commits_df = spark.read \
     .option("header", "true") \
     .load(commits_file)
 
-print("----------------------------------------")
-print("Les 10 personnes qui ont le plus contribué au projet apache/spark ces 24 derniers mois:")
-print("----------------------------------------")
+display_message("Les 10 personnes qui ont le plus contribué au projet apache/spark ces 24 derniers mois:")
 
 # Managing the date to compare with
 date = datetime.now()
@@ -39,8 +38,11 @@ commits_df = commits_df.filter(commits_df.repo == "apache/spark") \
     col("date"),
     to_date(col("date"), "EEEE MMMM d hh:mm:ss YYYY X").alias("to_date"),
     col("repo")) \
-    .filter(commits_df("date").gt(earlier_date))
+    .filter(commits_df("date").gt(earlier_date)) \
+    .show(30, False)
 
-commits_df.show(30, False)
+# commits_df.show(30, False)
 
 commits_df.printSchema()
+
+sleep(1000000000)
